@@ -1,6 +1,6 @@
 # AI Game Agent
 
-State 402 coures project\
+CSE 592 coures project\
 Reinforcement learing agents playing the board game [_Manile_](<https://en.wikipedia.org/wiki/Manila_(board_game)>).
 
 ## Description
