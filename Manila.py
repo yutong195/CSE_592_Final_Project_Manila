@@ -13,26 +13,26 @@ def main(args):
     g = game.Game(args.verbose)
     # create AI players
     if args.mode == 'Q_learning':
-        player1 = agents.QlearningAgent("Player1", 100, None, g)
-        player2 = agents.QlearningAgent("Player2", 100, None, g)
-        player3 = agents.QlearningAgent("Player3", 100, None, g)
+        player1 = agents.QlearningAgent("Player1", 30, None, g)
+        player2 = agents.QlearningAgent("Player2", 30, None, g)
+        player3 = agents.QlearningAgent("Player3", 30, None, g)
     elif args.mode == 'DQN':
-        player1 = dqn.DQNAgent("Player1", 100, None, g)
-        player2 = dqn.DQNAgent("Player2", 100, None, g)
-        player3 = dqn.DQNAgent("Player3", 100, None, g)
+        player1 = dqn.DQNAgent("Player1", 30, None, g)
+        player2 = dqn.DQNAgent("Player2", 30, None, g)
+        player3 = dqn.DQNAgent("Player3", 30, None, g)
     player1.set_factor(0.3)
     player2.set_factor(1)
     player3.set_factor(1.8)
     # add human players to the game
     if args.AI_num == 0:
-        player1 = play.Player("Player1", 100, None, g)
-        player2 = play.Player("Player2", 100, None, g)
-        player3 = play.Player("Player3", 100, None, g)
+        player1 = play.Player("Player1", 30, None, g)
+        player2 = play.Player("Player2", 30, None, g)
+        player3 = play.Player("Player3", 30, None, g)
     elif args.AI_num == 1:
-        player1 = play.Player("Player1", 100, None, g)
-        player2 = play.Player("Player2", 100, None, g)
+        player1 = play.Player("Player1", 30, None, g)
+        player2 = play.Player("Player2", 30, None, g)
     elif args.AI_num == 2:
-        player1 = play.Player("Player1", 100, None, g)
+        player1 = play.Player("Player1", 30, None, g)
     player_ls = [player1, player2, player3]
     g.add_player(player_ls)
     # start the train
