@@ -21,7 +21,7 @@ Investment and corresponding idx
     money difference to 1st player : 12
     money difference to 2nd player : 13
     money difference to 3rd player : 14
-    Roung number : 15
+    Round number : 15
 
 Values:
     Ships : num of seats left
@@ -56,10 +56,10 @@ class QlearningAgent(Player):
         self.verbose = False
         self.epsilon = .95
         self.eps_step = 0.05
-        self.action_val_dic = {"Port1" : 0, "Port2" : 1, "Port3" : 2, "Port4": 3, "Port5": 4, "Port6": 5, "Port7": 6, "Port8":7, "Port9": 8,
-                               "Shipyard1" : 9, "Shipyard2" : 10, "Shipyard3" : 11,"Shipyard4" : 12, "Shipyard5" : 13, "Shipyard6" : 14,"Shipyard7" : 15, "Shipyard8" : 16, "Shipyard9" : 17,
-                               "Ship1" : 18, "Ship2" : 19, "Ship3" : 20,"Ship4" : 21, "Ship5" : 22, "Ship6" : 23,"Ship7" : 24, "Ship8" : 25, "Ship9" : 26,
-                               "Skip" : 27}
+        self.action_val_dic = {"Port1" : 0, "Port2" : 1, "Port3" : 2,
+                               "Shipyard1" : 3, "Shipyard2" : 4, "Shipyard3" : 5,
+                               "Ship1" : 6, "Ship2" : 7, "Ship3" : 8,
+                               "Skip" : 9}
         
     def set_verbose(self, verbose):
         self.verbose = verbose
