@@ -1,10 +1,4 @@
 '''
-Author: SeekingAspdelus jz332@duke.edu
-LastEditors: SeekingAspdelus
-Date: 2022-10-27 12:19:15
-LastEditTime: 2022-12-16 00:02:45
-FilePath: \AI_Game_Agent\play.py
-
 All the method in this file is used to control the player's action.
 method may be called in this file:
     get_behavior()
@@ -16,22 +10,21 @@ method may be called in this file:
 '''
 
 
-
 class Player():
     def __init__(self, name, money, color, game):
-        self.name = name # player's name string
-        self.money = money # in Peso int
+        self.name = name  # player's name string
+        self.money = money  # in Peso int
         self.initial_money = money
-        self.color = color # player's color
-        self.behavior = [] #player's used behavior object
-        self.game = game # game
-        self.winrate = 0 # winrate
+        self.color = color  # player's color
+        self.behavior = []  # player's used behavior object
+        self.game = game  # game
+        self.winrate = 0  # winrate
 
     def __str__(self):
-        return f'{self.name} has {self.money} Peso, his/her color is {self.color}'
+        return f'{self.name} has {self.money} Peso, color is {self.color}'
 
     def get_behavior(self):
-        #What you have done in this game
+        # What you have done in this game
         return self.behavior
 
     def get_name(self):
@@ -70,7 +63,9 @@ class Player():
             return False
 
     def status(self):
-        print(f'You are {self.name}, your color is {self.color}, you have {self.money} Peso')
+        print(
+            f'You are {self.name}, your color is {self.color},\
+              you have {self.money} Peso')
         for i in self.behavior:
             print(f'You have invested in {i.name}')
 
@@ -87,8 +82,9 @@ class Player():
         for i in self.available_action:
             if i.name != 'Skip':
                 print(f'{i.name} with cost {i.get_cost()}')
-        """ for ship in self.game.ship_ls:
-            print("{ship} now at position {position}".format(ship=ship.name, position=ship.position)) """
+        for ship in self.game.ship_ls:
+            print("{ship} now at position {position}".
+                  format(ship=ship.name, position=ship.position))
         print('You can also choose to skip this turn')
         print('Please specify the action you want to take')
         while True:
@@ -117,7 +113,7 @@ class Player():
             self.profit(i.get_payback()/investor_num)
         print(f'You have {self.money} Peso now')
 
-    #should not be called
+    # should not be called
     def set_money(self, money):
         self.money = money
 
@@ -139,20 +135,20 @@ class Player():
         '''
         self.available_action = []
         for i in self.game.port_ls:
-            if i.get_availability():
+            if i.get_availability() and i.get_cost() <= self.money:
                 self.available_action.append(i)
         for i in self.game.shipyard_ls:
-            if i.get_availability():
+            if i.get_availability() and i.get_cost() <= self.money:
                 self.available_action.append(i)
         for i in self.game.ship_ls:
-            if i.get_availability():
+            if i.get_availability() and i.get_cost() <= self.money:
                 self.available_action.append(i)
         if self.game.skip.get_availability():
             self.available_action.append(self.game.skip)
-        money = self.money
-        for i in self.available_action:
-            if i.get_cost() > money:
-                self.available_action.remove(i)
+        # money = self.money
+        # for i in self.available_action:
+        #     if i.get_cost() > money:
+        #         self.available_action.remove(i)
         return self.available_action
 
     def next_game(self, game):
