@@ -20,7 +20,7 @@ def main(args):
         player1 = dqn.DQNAgent("Player1", 30, None, g)
         player2 = dqn.DQNAgent("Player2", 30, None, g)
         player3 = dqn.DQNAgent("Player3", 30, None, g)
-    player1.set_factor(0.4)
+    player1.set_factor(0.5)
     player2.set_factor(1)
     player3.set_factor(1.8)
     # add human players to the game
@@ -57,7 +57,7 @@ def main(args):
           'Player3 winrate: {:.2f}%'.format(player3.winrate/args.epoch*100),
           sep='\t')
     # Plot delta Q values for player1 after training to evaluate convergence
-    player3.plot_delta_q()
+    player2.plot_delta_q()
 
     # plot loss for DQN agents
     if args.mode == "DQN":
