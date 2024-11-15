@@ -3,7 +3,7 @@ import argparse
 import game
 import agents
 import benchmark_agent
-import dqn
+# import dqn
 
 
 def main(args):
