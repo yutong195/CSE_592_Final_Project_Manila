@@ -20,7 +20,7 @@ def main(args):
         player1 = dqn.DQNAgent("Player1", 30, None, g)
         player2 = dqn.DQNAgent("Player2", 30, None, g)
         player3 = dqn.DQNAgent("Player3", 30, None, g)
-    player1.set_factor(0.3)
+    player1.set_factor(0.4)
     player2.set_factor(1)
     player3.set_factor(1.8)
     # add human players to the game

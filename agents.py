@@ -55,7 +55,7 @@ class QlearningAgent(Player):
         self.tValue = 0
         self.seed = None
         self.verbose = False
-        self.epsilon = .9
+        self.epsilon = .95
         self.eps_step = 0.01
         self.action_val_dic = {"Port1" : 0, "Port2" : 1, "Port3" : 2,
                                "Shipyard1" : 3, "Shipyard2" : 4, "Shipyard3" : 5,
