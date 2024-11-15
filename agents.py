@@ -1,6 +1,7 @@
 import numpy as np
 from play import Player
 import util
+import matplotlib.pyplot as plt
 
 """
 State:
@@ -60,6 +61,7 @@ class QlearningAgent(Player):
                                "Shipyard1" : 3, "Shipyard2" : 4, "Shipyard3" : 5,
                                "Ship1" : 6, "Ship2" : 7, "Ship3" : 8,
                                "Skip" : 9}
+        self.delta_q_values = []  # To track delta Q values
         
     def set_verbose(self, verbose):
         self.verbose = verbose
@@ -81,7 +83,25 @@ class QlearningAgent(Player):
 
     def update_Qtable(self, newQ, state, action):
         s_a_pair = tuple(state + [self.convertAction(action)])
+        oldQ = self.get_qvalue(s_a_pair)
+        deltaQ = abs(newQ - oldQ)
+
+        # Update Q-table
         self.qtable[s_a_pair] = newQ
+
+        # Track delta Q value for plotting
+        self.delta_q_values.append(deltaQ)
+    
+    def plot_delta_q(self):
+        # Plot delta Q values to see if Q-values converge over time
+        plt.figure(figsize=(10, 6))
+        plt.plot(self.delta_q_values, label='Delta Q Over Time')
+        plt.xlabel('Update Steps')
+        plt.ylabel('Delta Q')
+        plt.title('Q-value Changes Over Time (Convergence Plot)')
+        plt.legend()
+        plt.grid(True)
+        plt.show()
 
     def convertAction(self, action):
         return self.action_val_dic[action.name]
