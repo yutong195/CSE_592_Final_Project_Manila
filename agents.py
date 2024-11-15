@@ -195,12 +195,17 @@ class QlearningAgent(Player):
         if action.get_type() == "ship":
             payback = action.get_payback()/(len(action.get_investors())+1)-action.get_cost()
             reward = payback + self.factor*payback * \
+<<<<<<< Updated upstream
                 (self.get_probability((3-self.game.current_round), 13-action.get_position()))
+=======
+                (3.5*(3-self.game.current_round)+action.get_position()-10)
+>>>>>>> Stashed changes
 
         elif action.get_type() == "port":
             payback = action.get_payback() - action.get_cost()
             if (action.name == "Port1"):
                 reward = payback + self.factor*payback * \
+<<<<<<< Updated upstream
                     (self.get_probability((3-self.game.current_round), 13-ship_pos_max))
             elif (action.name == "Port2"):
                 reward = payback + self.factor*payback * \
@@ -208,11 +213,21 @@ class QlearningAgent(Player):
             else:
                 reward = payback + self.factor*payback * \
                     (self.get_probability((3-self.game.current_round), 13-ship_pos_min))
+=======
+                    (3.5*(3-self.game.current_round)+ship_pos_max-10)
+            elif (action.name == "Port2"):
+                reward = payback + self.factor*payback * \
+                    (3.5*(3-self.game.current_round)+ship_pos_mid-10)
+            else:
+                reward = payback + self.factor*payback * \
+                    (3.5*(3-self.game.current_round)+ship_pos_min-10)
+>>>>>>> Stashed changes
 
         elif action.get_type() == "shipyard":
             payback = action.get_payback() - action.get_cost()
             if action.name == "Shipyard1":
                 reward = payback - self.factor*payback * \
+<<<<<<< Updated upstream
                     (self.get_probability((3-self.game.current_round), 13-ship_pos_min, False))
             elif action.name == "Shipyard2":
                 reward = payback - self.factor*payback * \
@@ -220,6 +235,15 @@ class QlearningAgent(Player):
             else:
                 reward = payback - self.factor*payback * \
                     (self.get_probability((3-self.game.current_round), 13-ship_pos_max, False))
+=======
+                    (3.5*(3-self.game.current_round)+ship_pos_min-10)
+            elif action.name == "Shipyard2":
+                reward = payback - self.factor*payback * \
+                    (3.5*(3-self.game.current_round)+ship_pos_mid-10)
+            else:
+                reward = payback - self.factor*payback * \
+                    (3.5*(3-self.game.current_round)+ship_pos_max-10)
+>>>>>>> Stashed changes
         else:
             reward = 0
 
