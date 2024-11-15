@@ -50,13 +50,13 @@ class QlearningAgent(Player):
         super().__init__(name, money, color, game)
         self.qtable = util.Qtable()
         self.factor = 0
-        self.alpha = 0.7
-        self.gamma = 0.5
+        self.alpha = 0.2
+        self.gamma = 0.8
         self.tValue = 0
         self.seed = None
         self.verbose = False
-        self.epsilon = .95
-        self.eps_step = 0.02
+        self.epsilon = .9
+        self.eps_step = 0.01
         self.action_val_dic = {"Port1" : 0, "Port2" : 1, "Port3" : 2,
                                "Shipyard1" : 3, "Shipyard2" : 4, "Shipyard3" : 5,
                                "Ship1" : 6, "Ship2" : 7, "Ship3" : 8,
@@ -217,33 +217,33 @@ class QlearningAgent(Player):
         if action.get_type() == "ship":
             payback = action.get_payback()/(len(action.get_investors())+1)
             reward = 0 - action.get_cost() + self.factor*payback * \
-                (self.get_probability((3-self.game.current_round), 10-action.get_position()))
+                (self.get_probability((3-self.game.current_round), 11-action.get_position()))
 
 
         elif action.get_type() == "port":
             payback = action.get_payback()
             if (action.name == "Port1"):
                 reward = 0 - action.get_cost() + self.factor*payback * \
-                    (self.get_probability((3-self.game.current_round), 10-ship_pos_max))
+                    (self.get_probability((3-self.game.current_round), 11-ship_pos_max))
             elif (action.name == "Port2"):
                 reward = 0 - action.get_cost() + self.factor*payback * \
-                    (self.get_probability((3-self.game.current_round), 10-ship_pos_mid))
+                    (self.get_probability((3-self.game.current_round), 11-ship_pos_mid))
             else:
                 reward = 0 - action.get_cost() + self.factor*payback * \
-                    (self.get_probability((3-self.game.current_round), 10-ship_pos_min))
+                    (self.get_probability((3-self.game.current_round), 11-ship_pos_min))
 
 
         elif action.get_type() == "shipyard":
             payback = action.get_payback()
             if action.name == "Shipyard1":
                 reward = 0 - action.get_cost() + self.factor*payback * \
-                    (self.get_probability((3-self.game.current_round), 10-ship_pos_min, False))
+                    (self.get_probability((3-self.game.current_round), 11-ship_pos_min, False))
             elif action.name == "Shipyard2":
                 reward = 0 - action.get_cost() + self.factor*payback * \
-                    (self.get_probability((3-self.game.current_round), 10-ship_pos_mid, False))
+                    (self.get_probability((3-self.game.current_round), 11-ship_pos_mid, False))
             else:
                 reward = 0 - action.get_cost() + self.factor*payback * \
-                    (self.get_probability((3-self.game.current_round), 10-ship_pos_max, False))
+                    (self.get_probability((3-self.game.current_round), 11-ship_pos_max, False))
 
         else:
             reward = 0
