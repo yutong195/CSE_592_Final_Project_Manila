@@ -1,6 +1,7 @@
 import numpy as np
 from play import Player
 import util
+import matplotlib.pyplot as plt
 
 """
 State:
@@ -55,11 +56,12 @@ class QlearningAgent(Player):
         self.seed = None
         self.verbose = False
         self.epsilon = .95
-        self.eps_step = 0.05
+        self.eps_step = 0.02
         self.action_val_dic = {"Port1" : 0, "Port2" : 1, "Port3" : 2,
                                "Shipyard1" : 3, "Shipyard2" : 4, "Shipyard3" : 5,
                                "Ship1" : 6, "Ship2" : 7, "Ship3" : 8,
                                "Skip" : 9}
+        self.delta_q_values = []  # To track delta Q values
         
     def set_verbose(self, verbose):
         self.verbose = verbose
@@ -81,7 +83,25 @@ class QlearningAgent(Player):
 
     def update_Qtable(self, newQ, state, action):
         s_a_pair = tuple(state + [self.convertAction(action)])
+        oldQ = self.get_qvalue(s_a_pair)
+        deltaQ = abs(newQ - oldQ)
+
+        # Update Q-table
         self.qtable[s_a_pair] = newQ
+
+        # Track delta Q value for plotting
+        self.delta_q_values.append(deltaQ)
+    
+    def plot_delta_q(self):
+        # Plot delta Q values to see if Q-values converge over time
+        plt.figure(figsize=(10, 6))
+        plt.plot(self.delta_q_values, label='Delta Q Over Time')
+        plt.xlabel('Update Steps')
+        plt.ylabel('Delta Q')
+        plt.title('Q-value Changes Over Time (Convergence Plot)')
+        plt.legend()
+        plt.grid(True)
+        plt.show()
 
     def convertAction(self, action):
         return self.action_val_dic[action.name]
@@ -99,6 +119,8 @@ class QlearningAgent(Player):
                                                                                      27, 27, 25, 21, 15, 10, 6, 3, 1]]
         if target_value > len(count[num_dice]):
             return 0
+        if target_value < 0:
+            return 1
         if larger:
             return sum(count[num_dice][target_value:])/sum(count[num_dice])
         else:
@@ -193,34 +215,34 @@ class QlearningAgent(Player):
         ship_pos_min = ship_pos_ls_sort[0]
 
         if action.get_type() == "ship":
-            payback = action.get_payback()/(len(action.get_investors())+1)-action.get_cost()
-            reward = payback + self.factor*payback * \
+            payback = action.get_payback()/(len(action.get_investors())+1)
+            reward = 0 - action.get_cost() + self.factor*payback * \
                 (self.get_probability((3-self.game.current_round), 10-action.get_position()))
 
 
         elif action.get_type() == "port":
-            payback = action.get_payback() - action.get_cost()
+            payback = action.get_payback()
             if (action.name == "Port1"):
-                reward = payback + self.factor*payback * \
+                reward = 0 - action.get_cost() + self.factor*payback * \
                     (self.get_probability((3-self.game.current_round), 10-ship_pos_max))
             elif (action.name == "Port2"):
-                reward = payback + self.factor*payback * \
+                reward = 0 - action.get_cost() + self.factor*payback * \
                     (self.get_probability((3-self.game.current_round), 10-ship_pos_mid))
             else:
-                reward = payback + self.factor*payback * \
+                reward = 0 - action.get_cost() + self.factor*payback * \
                     (self.get_probability((3-self.game.current_round), 10-ship_pos_min))
 
 
         elif action.get_type() == "shipyard":
-            payback = action.get_payback() - action.get_cost()
+            payback = action.get_payback()
             if action.name == "Shipyard1":
-                reward = payback - self.factor*payback * \
+                reward = 0 - action.get_cost() + self.factor*payback * \
                     (self.get_probability((3-self.game.current_round), 10-ship_pos_min, False))
             elif action.name == "Shipyard2":
-                reward = payback - self.factor*payback * \
+                reward = 0 - action.get_cost() + self.factor*payback * \
                     (self.get_probability((3-self.game.current_round), 10-ship_pos_mid, False))
             else:
-                reward = payback - self.factor*payback * \
+                reward = 0 - action.get_cost() + self.factor*payback * \
                     (self.get_probability((3-self.game.current_round), 10-ship_pos_max, False))
 
         else:

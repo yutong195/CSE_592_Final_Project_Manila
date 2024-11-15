@@ -56,6 +56,8 @@ def main(args):
           'Player2 winrate: {:.2f}%'.format(player2.winrate/args.epoch*100),
           'Player3 winrate: {:.2f}%'.format(player3.winrate/args.epoch*100),
           sep='\t')
+    # Plot delta Q values for player1 after training to evaluate convergence
+    player3.plot_delta_q()
 
     # plot loss for DQN agents
     if args.mode == "DQN":
