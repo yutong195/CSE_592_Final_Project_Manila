@@ -50,8 +50,8 @@ class QlearningAgent(Player):
         super().__init__(name, money, color, game)
         self.qtable = util.Qtable()
         self.factor = 0
-        self.alpha = 0.2
-        self.gamma = 0.8
+        self.alpha = 0.02
+        self.gamma = 0.9
         self.tValue = 0
         self.seed = None
         self.verbose = False
@@ -84,7 +84,7 @@ class QlearningAgent(Player):
     def update_Qtable(self, newQ, state, action):
         s_a_pair = tuple(state + [self.convertAction(action)])
         oldQ = self.get_qvalue(s_a_pair)
-        deltaQ = abs(newQ - oldQ)
+        deltaQ = newQ - oldQ
 
         # Update Q-table
         self.qtable[s_a_pair] = newQ
@@ -95,7 +95,8 @@ class QlearningAgent(Player):
     def plot_delta_q(self):
         # Plot delta Q values to see if Q-values converge over time
         plt.figure(figsize=(10, 6))
-        plt.plot(self.delta_q_values, label='Delta Q Over Time')
+        plt.scatter(range(len(self.delta_q_values)//100), self.delta_q_values[:-1:100], label='Delta Q Over Time',
+                    s=2)
         plt.xlabel('Update Steps')
         plt.ylabel('Delta Q')
         plt.title('Q-value Changes Over Time (Convergence Plot)')
@@ -126,7 +127,7 @@ class QlearningAgent(Player):
         else:
             return sum(count[num_dice][:target_value]) / sum(count[num_dice])
 
-    def my_turn(self):
+    def my_turn(self, current_epoch):
         # compute action with maximum Qvalue
         action, currentQ, currentState = self.eps_greedy()
         # compute Reward
@@ -140,9 +141,13 @@ class QlearningAgent(Player):
                 agent_name=self.name, investment_name=action.name))
         # observe nextState and compute maximum Qvalue of nextState
         _, nextQ, _ = self.computeMax()
+
+        alpha_tmp = self.alpha * (1 - current_epoch/30000)
         # update Qtable
         newQ = (1 - self.alpha) * currentQ + \
             self.alpha * (R + self.gamma * nextQ)
+        # newQ = (1 - alpha_tmp) * currentQ + \
+        #     alpha_tmp * (R + self.gamma * nextQ)
         self.update_Qtable(newQ, currentState, action)
 
     def get_state(self):

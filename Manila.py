@@ -10,7 +10,7 @@ import agents
 
 def main(args):
     # create a game
-    g = game.Game(args.verbose)
+    g = game.Game(args.verbose, args.epoch)
     # create AI players
     if args.mode == 'Q_learning':
         player1 = agents.QlearningAgent("Player1", 30, None, g)
@@ -20,9 +20,9 @@ def main(args):
         player1 = dqn.DQNAgent("Player1", 30, None, g)
         player2 = dqn.DQNAgent("Player2", 30, None, g)
         player3 = dqn.DQNAgent("Player3", 30, None, g)
-    player1.set_factor(0.5)
+    player1.set_factor(0)
     player2.set_factor(1)
-    player3.set_factor(1.8)
+    player3.set_factor(0)
     # add human players to the game
     if args.AI_num == 0:
         player1 = play.Player("Player1", 30, None, g)
@@ -46,7 +46,7 @@ def main(args):
             print("Player3's final money:", int(player_ls[2].money))
         money_ls = [player_ls[0].money, player_ls[1].money, player_ls[2].money]
         player_ls[money_ls.index(max(money_ls))].winrate += 1
-        g = game.Game(args.verbose)
+        g = game.Game(args.verbose, args.epoch)
         for player in player_ls:
             player.next_game(g)
         g.add_player(player_ls)

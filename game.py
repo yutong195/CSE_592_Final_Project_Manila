@@ -7,7 +7,7 @@ class Game():
     instantiate the players, ships, ports, and shipyards, and outputfile
     '''
 
-    def __init__(self,verbose):
+    def __init__(self,verbose, epoch):
         """
 
         Args:
@@ -32,6 +32,7 @@ class Game():
         self.round_num = 3
         self.verbose = verbose
         self.current_round = 1
+        self.current_epoch = epoch
         # instantiate skip in game
         self.skip = investment.skip()
         
@@ -52,7 +53,7 @@ class Game():
         All players take their turns
         """        
         for player in self.player_ls:
-            player.my_turn()
+            player.my_turn(self.current_epoch)
             if self.verbose:
                 print("{} has current money: {}\n".format(player.name,player.money))
         
