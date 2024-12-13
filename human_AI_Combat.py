@@ -2,18 +2,18 @@ import game
 import agents
 import play
 import argparse
-import dqn
+# import dqn
 
 
 def main(args):
-    g = game.Game(True)
-    player1 = play.Player("Player1", 30, None, g)
+    g = game.Game(True, 0)
+    player2 = play.Player("Player2", 30, None, g)
     if args.mode == 'Q_learning':
-        player2 = agents.QlearningAgent("Player2", 30, None, g)
-        player2.set_verbose(True)
+        player1 = agents.QlearningAgent("Player1", 30, None, g)
+        player1.set_verbose(True)
         player3 = agents.QlearningAgent("Player3", 30, None, g)
         player3.set_verbose(True)
-        player2.loadQtable("qtable_" + args.behavior1 + ".json")
+        player1.loadQtable("qtable_" + args.behavior1 + ".json")
         player3.loadQtable("qtable_" + args.behavior2 + ".json")
     if args.mode == 'DQN':
         player2 = dqn.DQNAgent("Player2", 30, None, g)

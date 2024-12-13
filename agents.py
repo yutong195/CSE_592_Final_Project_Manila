@@ -95,11 +95,13 @@ class QlearningAgent(Player):
     def plot_delta_q(self):
         # Plot delta Q values to see if Q-values converge over time
         plt.figure(figsize=(10, 6))
-        plt.scatter(range(len(self.delta_q_values)//100), self.delta_q_values[:-1:100], label='Delta Q Over Time',
+        x = range(len(self.delta_q_values)//100)
+        y = [sum(self.delta_q_values[i-50:i+50])/100 for i in range(len(self.delta_q_values))]
+        plt.scatter([num * 100 for num in x], y[50:-49:100], label='Delta Q Over Time',
                     s=2)
         plt.xlabel('Update Steps')
         plt.ylabel('Delta Q')
-        plt.title('Q-value Changes Over Time (Convergence Plot)')
+        plt.title('Average Delta Q Over 100 steps (Convergence Plot)')
         plt.legend()
         plt.grid(True)
         plt.show()

@@ -69,7 +69,7 @@ class Player():
         for i in self.behavior:
             print(f'You have invested in {i.name}')
 
-    def my_turn(self):
+    def my_turn(self, epoch):
         '''
         player's turn
         what to do:

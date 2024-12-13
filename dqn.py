@@ -30,7 +30,8 @@ class DeepQNetwork(nn.Module):
 
 
 class DQNAgent(agents.QlearningAgent):
-    def __init__(self, name, money, color, game, gamma=0.9, epsilon=0.2, lr=0.001, input_dims=40, batch_size=30, n_actions = 28, max_memory=100000, eps_min=0.05, eps_step=5e-4, tau=0.005):
+    def __init__(self, name, money, color, game, gamma=0.9, epsilon=0.2, lr=0.001, input_dims=40, batch_size=30,
+                 n_actions = 10, max_memory=100000, eps_min=0.05, eps_step=5e-4, tau=0.005):
         super().__init__(name,money,color,game)
         self.gamma = gamma
         self.epsilon = epsilon

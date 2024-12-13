@@ -5,7 +5,7 @@ import game
 import play
 import time
 import agents
-# import dqn
+import dqn
 
 
 def main(args):
